@@ -1,0 +1,3 @@
+Søk, les og rediger dokumentasjon med dine personlige BookStack-rettigheter.
+
+Kom i gang: Åpne https://bookstack-mcp.tronderdata.no/setup, logg inn med samme jobbkonto som i ChatGPT og registrer din egen BookStack API-nøkkel. Velg «Test og lagre nøkkel», og gå tilbake til ChatGPT. Hver ansatt registrerer sin egen nøkkel én gang. API-nøkkelen skal aldri legges i chatten.

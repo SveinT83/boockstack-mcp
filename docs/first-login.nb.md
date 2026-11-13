@@ -18,7 +18,7 @@ Send aldri Token ID eller Token Secret i chat, verktøyargumenter, e-post eller 
 
 ## Koble nøkkelen til MCP-en
 
-1. Åpne MCP-ens oppsettside på adressen drift har publisert, med stien `/setup`.
+1. Åpne [BookStack-oppsettet](https://bookstack-mcp.tronderdata.no/setup). Dette er oppsettsadressen for Trønder Data-installasjonen; andre installasjoner har sin egen adresse med stien `/setup`.
 2. Logg inn gjennom Keycloak med jobbkontoen din. Kontroller domenet før du legger inn opplysninger.
 3. Lim Token ID og Token Secret inn i det sikre skjemaet.
 4. Bekreft at dette er **din egen personlige** nøkkel, og velg **Test og lagre nøkkel**.
@@ -29,7 +29,7 @@ BookStacks dokumenterte API i den kontrollerte versjonen kan ikke bekrefte hvilk
 
 ## Koble til ChatGPT når pluginen er klargjort
 
-Drift oppretter og deler den felles BookStack-pluginen senere. Hver tekniker kobler den til og godkjenner egen Keycloak-innlogging. ChatGPT skal ikke be deg skrive BookStack-nøkkelen i samtalen.
+Åpne BookStack-pluginen som drift har delt, og godkjenn egen Keycloak-innlogging. Bruk samme personlige jobbkonto som på oppsettsiden. ChatGPT skal ikke be deg skrive BookStack-nøkkelen i samtalen. Pluginens «Kom i gang»-veiledning viser oppsettslenken og leder deg gjennom nøkkelregistreringen hvis du mangler en lagret nøkkel.
 
 Be først om tilkoblingsstatus, og prøv deretter et søk etter et dokument du kjenner. Tilgang til skriving krever et eget OAuth-scope i tillegg til BookStack-rettighetene dine. Hvis tjenesten sier at en personlig nøkkel mangler, bruk oppsettsiden med samme jobbkonto som i ChatGPT-innloggingen.
 

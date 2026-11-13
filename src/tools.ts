@@ -32,10 +32,17 @@ export function createServer(
   correlationId: string,
   log: Log,
 ): McpServer {
+  const setupUrl = `${config.publicOrigin}/setup`;
+  const setupInstructions = [
+    `Åpne ${setupUrl} og logg inn med samme personlige jobbkonto som i ChatGPT-tilkoblingen.`,
+    `Åpne ${config.bookstackUrl}, rediger din egen brukerprofil og velg API Tokens → Create Token. Hvis API Tokens mangler, be administrator kontrollere Access System API.`,
+    'Lim din egen Token ID og Token Secret direkte inn på oppsettsiden, bekreft at nøkkelen er personlig, og velg Test og lagre nøkkel. Legg aldri nøkkelen i chatten.',
+    'Gå tilbake til ChatGPT, skriv Ferdig og kontroller tilkoblingsstatus på nytt før dokumentoppgaven fortsetter.',
+  ];
   const server = new McpServer(
     { name: 'td-bookstack', version: '0.1.0' },
     {
-      instructions: `Bruk personens BookStack-rettigheter. ${contentNotice} API-nøkler skal bare legges inn på ${config.publicOrigin}/setup, aldri i chat eller verktøyargumenter.`,
+      instructions: `Start første BookStack-oppgave i samtalen med bookstack_connection_status. Ved connected=false, vis en klikkbar Kom i gang-lenke til ${setupUrl} og setupInstructions, og vent til brukeren har lagret sin egen nøkkel før dokumentoppgaven fortsetter. connected=true bekrefter bare lagring, ikke et nytt BookStack-kall. Bruk personens BookStack-rettigheter. ${contentNotice} API-nøkler skal bare legges inn på ${setupUrl}, aldri i chat eller verktøyargumenter.`,
     },
   );
   function register<S extends z.ZodObject>(
@@ -110,7 +117,10 @@ export function createServer(
                   code: failure.code,
                   message: failure.message,
                   correlationId,
-                  setupUrl: `${config.publicOrigin}/setup`,
+                  setupUrl,
+                  ...(failure.code === 'BOOKSTACK_KEY_MISSING'
+                    ? { setupRequired: true, setupInstructions }
+                    : {}),
                 }),
               },
             ],
@@ -122,10 +132,18 @@ export function createServer(
   register(
     'bookstack_connection_status',
     'Kontroller min tilkobling',
-    'Vis om du har lagret en personlig nøkkel. Returnerer aldri nøkkelen. Ingen BookStack-kall.',
+    `Start her ved første bruk. Vis om du har lagret en personlig nøkkel. Hvis nøkkelen mangler, vis Kom i gang-lenken ${setupUrl} og oppsettstrinnene. Returnerer aldri nøkkelen. Ingen BookStack-kall.`,
     z.object({}).strict(),
     false,
-    async () => ({ ...store.status(principal), setupUrl: `${config.publicOrigin}/setup` }),
+    async () => {
+      const status = store.status(principal);
+      return {
+        ...status,
+        setupUrl,
+        setupRequired: !status.connected,
+        ...(!status.connected ? { setupInstructions } : {}),
+      };
+    },
   );
   register(
     'bookstack_search',

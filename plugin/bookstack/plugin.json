@@ -1,17 +1,19 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bookstack",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Personlig søk, lesing og redigering i BookStack gjennom Keycloak og brukerens egne BookStack-rettigheter.",
   "author": { "name": "Trønder Data" },
   "repository": "https://github.com/SveinT83/boockstack-mcp",
   "license": "MIT",
   "extensions": {
     "com.openai": {
+      "onboardingSkill": "./skills/bookstack-setup/SKILL.md",
       "interface": {
         "displayName": "BookStack",
         "shortDescription": "Personlig BookStack-tilgang",
-        "longDescription": "Søk og naviger i dokumentasjon, les sider og opprett eller rediger sider, bøker og kapitler med dine eksisterende BookStack-rettigheter. Logg inn personlig gjennom Keycloak og registrer din egen BookStack API-nøkkel på den sikre oppsettsiden.",
+        "longDescription": "Søk, les og rediger dokumentasjon med dine personlige BookStack-rettigheter. Første gang: Åpne https://bookstack-mcp.tronderdata.no/setup, logg inn med jobbkontoen og registrer din egen BookStack API-nøkkel. Velg Test og lagre nøkkel, og gå tilbake til ChatGPT. Nøkkelen skal aldri legges i chatten.",
+        "websiteURL": "https://bookstack-mcp.tronderdata.no/setup",
         "developerName": "Trønder Data",
         "category": "Productivity",
         "capabilities": [],

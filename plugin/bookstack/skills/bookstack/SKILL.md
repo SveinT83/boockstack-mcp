@@ -1,6 +1,6 @@
 ---
 name: bookstack
-description: Bruk når brukeren vil søke, lese, navigere, opprette eller redigere dokumentasjon i BookStack med sin personlige tilgang.
+description: Bruk når brukeren vil komme i gang med BookStack, koble til sin egen API-nøkkel, søke, lese, navigere, opprette eller redigere dokumentasjon med personlig tilgang.
 ---
 
 # BookStack
@@ -11,7 +11,7 @@ Bruk denne pluginens BookStack-verktøy til dokumentasjonsarbeid. Hvert kall bru
 
 ## Førstegangsoppsett og feil
 
-Ved usikker tilkobling, bruk `bookstack_connection_status`. Hvis en personlig nøkkel mangler eller er avvist, henvis brukeren til https://bookstack-mcp.tronderdata.no/setup. Der logger brukeren inn med jobbkontoen og registrerer sin egen Token ID og Token Secret i det sikre skjemaet. Brukeren trenger «Access System API» i BookStack. Be aldri om API-nøkler, passord eller OAuth-tokens i chat eller verktøyargumenter.
+Ved første BookStack-oppgave i en samtale, og ved usikker tilkobling, bruk denne pluginens eget `bookstack_connection_status`. Hvis `connected` er `false`, stopp dokumentoppgaven og vis [Kom i gang med BookStack](https://bookstack-mcp.tronderdata.no/setup), med veiledningen i [oppsettsferdigheten](../bookstack-setup/SKILL.md). Be brukeren logge inn med samme jobbkonto som i ChatGPT-tilkoblingen, opprette en personlig nøkkel i BookStack og velge **Test og lagre nøkkel** på oppsettsiden. Be brukeren komme tilbake og skrive «Ferdig», og kontroller deretter status på nytt før dokumentoppgaven fortsetter. En lagret nøkkel er ikke i seg selv bevis på at et nytt BookStack-kall lykkes. En avvist eller utløpt nøkkel erstattes på samme oppsettside. Be aldri om API-nøkler, passord eller OAuth-tokens i chat eller verktøyargumenter.
 
 Oppgi korrelasjons-ID ved feil. Skill mellom utløpt MCP-innlogging, manglende personlig nøkkel, avvist nøkkel, manglende BookStack-rettigheter og nettverksfeil. Unngå å gjenta et skrivekall automatisk ved ukjent utfall; kontroller først om endringen kom inn.
 

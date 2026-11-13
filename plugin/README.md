@@ -1,6 +1,6 @@
 # BookStack ChatGPT plugin
 
-`bookstack/` contains the portable Agent Plugins 1.0 package for the standalone MCP service. It includes a Norwegian workflow skill, a local SVG icon, and a direct Streamable HTTP connection. No LiteLLM route or credentials are packaged.
+`bookstack/` contains the portable Agent Plugins 1.0 package for the standalone MCP service. It includes Norwegian workflow and first-time setup skills, a local SVG icon, and a direct Streamable HTTP connection. No LiteLLM route or credentials are packaged.
 
 Build a ZIP outside the source directory:
 
@@ -18,7 +18,9 @@ ChatGPT's actual connection flow also requests `offline_access`. Assign the exis
 
 A private workspace plugin was created from this package on 2026-11-13. Creation is not installation, personal authorization, workspace-wide sharing, or verified end-to-end access. The workspace owner must add the plugin and complete personal OAuth consent. Share it through Plugins → Created by you → BookStack → Share for the intended workspace audience. A public source repository does not publish the private plugin to the public directory.
 
-Each user registers their own BookStack token at the MCP service's `/setup` page. Never paste a token into ChatGPT. Verify connection status, a known permitted page, and a denied page before testing approved edits in designated test documentation.
+Each user registers their own BookStack token at [the setup page](https://bookstack-mcp.tronderdata.no/setup). Never paste a token into ChatGPT. Version 0.1.2 selects `skills/bookstack-setup/SKILL.md` as the onboarding skill and includes the setup URL in the portable plugin's description and website link. The workflow checks credential status before the first BookStack task in a conversation and guides users with no stored key through registration. It distinguishes a stored key from a successful upstream API call. Verify connection status, a known permitted page, and a denied page before testing approved edits in designated test documentation.
+
+The hosted MCP service also supplies the setup link and registration steps in its instructions, connection-status tool, and missing-key errors. This guides first-time users even when only the registered MCP app is installed. The PNG at `bookstack-icon.png` is a 256-pixel rendering of the packaged SVG, under ChatGPT's 10 KB upload limit; `app-description.nb.txt` contains the prepared Norwegian app description.
 
 ## Required ChatGPT MCP registration
 
@@ -26,7 +28,7 @@ The initial archive upload saved the package and skill, but did not establish a 
 
 Follow [OpenAI's registered MCP connection workflow](https://developers.openai.com/plugins/build/plugins#create-and-test-a-plugin-locally-with-an-mcp-server): ChatGPT Plugins → plus button → Add custom MCP server → configure the existing endpoint and the provided OAuth client → Create as a plugin. Obtain the resulting registered app/plugin reference and its actual callback information. Bind that verified app to the package through `.app.json` and the manifest's OpenAI app declaration; do not invent an app ID or consider the portable MCP file alone proof of a registered app connection.
 
-Version 0.1.1 makes the skill stop when its own direct tools are unavailable. Gateway results must never substitute for verification of the direct integration. The app binding and successful personal ChatGPT call are still pending; the MCP service and stored personal credential are unchanged.
+Version 0.1.1 makes the skill stop when its own direct tools are unavailable. Gateway results must never substitute for verification of the direct integration. The operator subsequently registered a separate MCP-backed app and confirmed a connected personal OAuth account. That app owns its own plugin release and presentation; update its existing verified plugin ID rather than assuming updates to the earlier standalone package will reach it. Keep the app's binding and OAuth configuration unchanged when adding skills. Its icon and description are app-owned settings and must be edited through the app's management interface. A successful personal document call remains unverified.
 
 ## Observed Codex Desktop compatibility limit
 

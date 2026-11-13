@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { fixture, alice, bob, aliceKey, bobKey, token, resultData } from './helpers.js';
+import { fixture, alice, bob, aliceKey, bobKey, token, config } from './helpers.js';
 
 function decoded(response: { text: string; body: any }): any {
   if (response.body?.result) return response.body;
@@ -38,7 +38,44 @@ test('missing key returns actionable error and correlation ID without upstream c
     const data = JSON.parse(decoded(r).result.content[0].text);
     assert.equal(data.code, 'BOOKSTACK_KEY_MISSING');
     assert.equal(data.correlationId, r.headers['x-correlation-id']);
+    assert.equal(data.setupRequired, true);
+    assert.equal(data.setupUrl, `${config.publicOrigin}/setup`);
+    assert(data.setupInstructions.some((step: string) => step.includes(data.setupUrl)));
     assert(!called);
+  } finally {
+    await f.close();
+  }
+});
+test('first-time setup guidance uses only the callers credential status without an upstream call', async () => {
+  let calls = 0;
+  const f = fixture(async () => {
+    calls++;
+    return Response.json({});
+  });
+  try {
+    f.store.save(bob, bobKey, 'v26.09.2');
+    const missing = JSON.parse(
+      decoded(await f.call('bookstack_connection_status', {}, await token())).result.content[0]
+        .text,
+    ).data;
+    assert.equal(missing.connected, false);
+    assert.equal(missing.setupRequired, true);
+    assert.equal(missing.setupUrl, `${config.publicOrigin}/setup`);
+    assert(missing.setupInstructions.some((step: string) => step.includes(config.bookstackUrl)));
+    f.store.save(alice, aliceKey, 'v26.09.2');
+    const saved = JSON.parse(
+      decoded(await f.call('bookstack_connection_status', {}, await token())).result.content[0]
+        .text,
+    ).data;
+    assert.equal(saved.connected, true);
+    assert.equal(saved.setupRequired, false);
+    assert.equal(saved.setupInstructions, undefined);
+    assert.equal(calls, 0);
+    const output = JSON.stringify({ missing, saved });
+    for (const key of [aliceKey, bobKey]) {
+      assert(!output.includes(key.tokenId));
+      assert(!output.includes(key.tokenSecret));
+    }
   } finally {
     await f.close();
   }

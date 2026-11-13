@@ -2,7 +2,7 @@
 
 A standalone, per-user [Model Context Protocol](https://modelcontextprotocol.io/) server for BookStack. Connect an MCP client directly over HTTPS, authenticate people with Keycloak, and use each person's encrypted BookStack API token. BookStack enforces its existing content permissions on every request.
 
-**Status:** the reference pilot is deployed behind HTTPS, with a healthy non-root container and dedicated Keycloak web and ChatGPT clients. Personal web login and API-key storage have succeeded. The [plugin package](plugin/README.md) has been saved as a private workspace plugin, but its registered ChatGPT MCP app binding is still missing: uploading the archive alone did not expose the direct tools. The complete ChatGPT flow is **not working or verified yet**. See [verification results](docs/verification.md) and the [deployment checklist](docs/production-checklist.md).
+**Status:** the reference pilot is deployed behind HTTPS, with a healthy non-root container and dedicated Keycloak web and ChatGPT clients. Personal web login and API-key storage have succeeded, and the operator has confirmed the registered ChatGPT app now shows a connected personal OAuth account. An end-to-end document call from that app remains unverified. The [plugin package](plugin/README.md) includes a first-time setup skill; a connected OAuth account alone does not establish that a personal BookStack key has been registered. See [verification results](docs/verification.md) and the [deployment checklist](docs/production-checklist.md).
 
 ## Features
 
@@ -54,9 +54,11 @@ Stored BookStack keys are bound to the exact validated `(issuer, subject)` pair.
 
 ## Personal BookStack tokens
 
+For the reference installation, start at [Set up your personal BookStack connection](https://bookstack-mcp.tronderdata.no/setup). Sign in with the same work account used for the ChatGPT connection, create a personal token in BookStack, and select **Test og lagre nøkkel** in the setup form. Return to ChatGPT to check connection status and try a permitted document search. Each employee completes this once for their own account. The plugin's setup skill guides users through these steps without collecting credentials in chat.
+
 The Norwegian setup page at `/setup` supports initial connection, replacement, and deletion. It requires job-account login, same-origin form submission, a session-bound CSRF token, and confirmation that the submitted BookStack token is personal. Token ID and Token Secret are accepted only by this browser form, never as MCP arguments. Saved values are never displayed or returned to a model.
 
-The form tests the token with `GET /api/system` before saving and checks the configured BookStack version. Failed validation preserves the existing stored key. The initial contract was checked against **BookStack v26.09.2**; an unauthenticated inspection of the target's login-page asset URLs reports that version. Authenticated version verification against that target still requires a personal API token. See [sources and limitations](docs/research.md).
+The form tests the token with `GET /api/system` before saving and checks the configured BookStack version. Failed validation preserves the existing stored key. The initial contract was checked against **BookStack v26.09.2**; the pilot subsequently validated that version during a successful personal-key save. See [sources and limitations](docs/research.md).
 
 **Token ownership cannot be verified through the documented API in this BookStack version.** There is no supported current-user endpoint; `/api/system` identifies the instance rather than the caller. Successful token validation does not prove that its owner matches the Keycloak user. The setup page states this limitation and asks the person to confirm ownership. Do not grant user-administration rights to work around it.
 
