@@ -2,7 +2,7 @@
 
 A standalone, per-user [Model Context Protocol](https://modelcontextprotocol.io/) server for BookStack. Connect an MCP client directly over HTTPS, authenticate people with Keycloak, and use each person's encrypted BookStack API token. BookStack enforces its existing content permissions on every request.
 
-**Status:** the reference pilot is deployed behind HTTPS, with a healthy non-root container and a dedicated Keycloak web client. Public discovery, anonymous-request rejection, PKCE login initiation, and client authentication have been checked. A complete personal login, personal BookStack access, and the ChatGPT connection have **not** been verified. No ChatGPT plugin is included. See [verification results](docs/verification.md) and the [deployment checklist](docs/production-checklist.md).
+**Status:** the reference pilot is deployed behind HTTPS, with a healthy non-root container and dedicated Keycloak web and ChatGPT clients. Public discovery, anonymous-request rejection, PKCE login initiation, and client authentication have been checked. The [plugin package](plugin/README.md) has been saved as a private workspace plugin. Personal installation, OAuth consent, BookStack access, and the complete ChatGPT flow have **not** been verified. See [verification results](docs/verification.md) and the [deployment checklist](docs/production-checklist.md).
 
 ## Features
 

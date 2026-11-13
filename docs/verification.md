@@ -60,6 +60,12 @@ The user subsequently authorized an isolated deployment on 2026-11-13. The earli
 
 Private operational paths, rollback notes, and deployment inventory are maintained outside this public repository. No credentials, database copies, or private infrastructure inventory are committed here.
 
+## Private workspace plugin follow-up
+
+A portable plugin package was created and saved in the authenticated user's active workspace on 2026-11-13. The saved release was read back to verify its skill and direct MCP configuration. The dedicated `bookstack-mcp-chatgpt` public OAuth client uses PKCE S256, five-minute access tokens, refresh tokens, a default read scope, and an optional write scope. No client secret is packaged or required.
+
+Its exact stable callback was verified against OpenAI's published client metadata and issuer-identification support. A no-session request to the real authorization endpoint accepted the callback and requested scopes, returning `login_required` plus the expected issuer. This proves configuration acceptance, not a completed personal authorization. Installation and workspace sharing remain user actions; the new plugin's tools have not yet appeared in this chat.
+
 ## Not yet verified
 
 - A completed personal OAuth callback/session, issued user-token claims, MFA, and the future MCP client's refresh-token lifecycle.
@@ -70,4 +76,4 @@ Private operational paths, rollback notes, and deployment inventory are maintain
 - End-to-end OAuth, discovery, reading, writing, and disconnect/revocation behavior inside ChatGPT Business.
 - Production backup/restore acceptance, service-specific monitoring, and encryption-key rotation on the target host.
 
-The initial implementation phase did not change production systems. The authorized pilot subsequently added its own container, DNS record, proxy configuration, certificate renewal, and dedicated Keycloak clients/scopes. Production BookStack content and existing MCP services were not changed. No ChatGPT plugin was created. The [deployment checklist](production-checklist.md) contains the remaining acceptance steps.
+The initial implementation phase did not change production systems. The authorized pilot subsequently added its own container, DNS record, proxy configuration, certificate renewal, and dedicated Keycloak clients/scopes. The separately authorized plugin phase created the private workspace package and its own OAuth client. Production BookStack content and existing MCP services were not changed. The [deployment checklist](production-checklist.md) contains the remaining acceptance steps.

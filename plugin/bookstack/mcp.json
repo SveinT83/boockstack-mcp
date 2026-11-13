@@ -1,0 +1,25 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "bookstack": {
+      "type": "streamable-http",
+      "url": "https://bookstack-mcp.tronderdata.no/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "client": {
+              "mode": "provided",
+              "clientId": "bookstack-mcp-chatgpt",
+              "tokenEndpointAuthMethod": "none"
+            },
+            "baseScopes": ["bookstack:read"],
+            "defaultScopes": ["bookstack:read", "bookstack:write"],
+            "oidcEnabled": true,
+            "oidcScopesSupported": ["openid", "profile", "email"]
+          }
+        }
+      }
+    }
+  }
+}

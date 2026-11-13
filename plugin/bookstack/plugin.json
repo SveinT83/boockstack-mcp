@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "bookstack",
+  "version": "0.1.0",
+  "description": "Personlig søk, lesing og redigering i BookStack gjennom Keycloak og brukerens egne BookStack-rettigheter.",
+  "author": { "name": "Trønder Data" },
+  "repository": "https://github.com/SveinT83/boockstack-mcp",
+  "license": "MIT",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "BookStack",
+        "shortDescription": "Personlig BookStack-tilgang",
+        "longDescription": "Søk og naviger i dokumentasjon, les sider og opprett eller rediger sider, bøker og kapitler med dine eksisterende BookStack-rettigheter. Logg inn personlig gjennom Keycloak og registrer din egen BookStack API-nøkkel på den sikre oppsettsiden.",
+        "developerName": "Trønder Data",
+        "category": "Productivity",
+        "capabilities": [],
+        "logo": "./assets/icon.svg",
+        "composerIcon": "./assets/icon.svg",
+        "defaultPrompt": "Søk etter dokumentasjon i BookStack."
+      }
+    }
+  }
+}
