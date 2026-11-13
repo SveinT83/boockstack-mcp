@@ -1,11 +1,11 @@
 # Production deployment checklist
 
-This document proposes later production changes. None have been applied. Example hostnames and client names must be reviewed before use.
+This is a reusable deployment and acceptance checklist. A reference pilot has now been deployed; its verified and pending checks are recorded in [verification.md](verification.md). Example hostnames and client names must still be reviewed for each installation. Unchecked items below are not a claim that the reference pilot has completed every acceptance step.
 
 ## Inputs still required
 
 - [ ] Decide the public HTTPS origin, host, service account, and port. `bookstack-mcp.example.org` is a placeholder, not an existing DNS record.
-- [ ] Confirm the actual Keycloak installation version and exact realm issuer. No usable realm, client registration, client secret, or Keycloak administration access was supplied for this project.
+- [ ] Confirm the actual Keycloak installation version and exact realm issuer. The reference pilot uses Keycloak 26.6.2 and the `tronderdata` realm; other installations must supply their own verified settings.
 - [ ] Confirm the current BookStack API version with a personal token and inspect that instance's authenticated `/api/docs`. Public asset URLs reported v26.09.2 on 2026-11-13.
 - [ ] Select a maintainer, log retention, backup location, recovery objectives, and an incident access-blocking procedure.
 

@@ -45,13 +45,29 @@ Tests cover:
 
 The exact v26.09.2 API routes, controllers, auth guard, and relevant translations were inspected from official versioned source. Public asset version evidence is explicitly weaker than an authenticated `/api/system` response. Sources are linked in [research notes](research.md).
 
+## Reference pilot deployment follow-up
+
+The user subsequently authorized an isolated deployment on 2026-11-13. The earlier implementation-only observations above remain historical evidence rather than a claim that no deployment has occurred.
+
+- The source implementation at commit `3468199` was built and deployed as a separate compose project. The existing BookStack MCP was kept running unchanged.
+- The new container is healthy, runs as UID/GID 1000, uses a read-only root filesystem and dropped capabilities, and has separate private state and encryption-key files.
+- The public origin is `https://bookstack-mcp.tronderdata.no`; the canonical MCP resource is that origin plus `/mcp`. DNS and a valid TLS certificate were verified. A dedicated automatic renewal job was installed and a certificate-renewal staging dry-run passed.
+- The HTTPS proxy preserves the authentication challenge and correlation headers. Anonymous `tools/list` receives HTTP 401, `/setup` requires login, metadata advertises the intended resource/issuer/scopes, and `/healthz` returns 200.
+- The actual Keycloak instance is version 26.6.2, with issuer `https://auth.tronderdata.no/realms/tronderdata`. Dedicated `bookstack-mcp-web` and `bookstack-mcp-api` clients and `bookstack:read`/`bookstack:write` scopes were added without changing existing clients or restarting Keycloak.
+- The confidential web client uses an exact callback, PKCE S256, a five-minute access-token lifetime, no password/implicit/service-account grants, and its dedicated read scope. Audience mapping targets the exact MCP URI. Its secret was transferred encrypted between servers, without appearing in chat or logs. Temporary transfer helpers were removed.
+- Real login initiation reaches the expected Keycloak login form with HTTP 200 and no invalid-client/redirect/scope error. A deliberately invalid authorization-code probe returned `invalid_grant` rather than `invalid_client`, confirming client authentication without obtaining a user token. This is not a completed personal OAuth exchange.
+- Native resource indicators and CIMD are disabled on the shared Keycloak instance. This pilot uses a fixed audience mapper for its web client. Native RFC 8707 target rejection and the future ChatGPT client's registration/grant behavior remain unverified; no full authorization-server conformance is claimed and no global feature was enabled implicitly.
+
+Private operational paths, rollback notes, and deployment inventory are maintained outside this public repository. No credentials, database copies, or private infrastructure inventory are committed here.
+
 ## Not yet verified
 
-- Actual Keycloak server version/realm, resource-indicator/CIMD configuration, client registrations, audience/scopes, MFA, and refresh-token lifecycle.
-- Actual browser login and token submission through the production HTTPS proxy.
+- A completed personal OAuth callback/session, issued user-token claims, MFA, and the future MCP client's refresh-token lifecycle.
+- Native resource-indicator/CIMD behavior and the future ChatGPT client registration.
+- Personal BookStack token submission through the production HTTPS proxy.
 - Authenticated personal BookStack reads and permission separation for two real technicians.
 - Actual key ownership: the supported BookStack API does not expose a caller-identity endpoint in this version. The personal-ownership confirmation is not technical proof.
 - End-to-end OAuth, discovery, reading, writing, and disconnect/revocation behavior inside ChatGPT Business.
-- Production container execution, backups/restores, monitoring, and encryption-key rotation on the target host.
+- Production backup/restore acceptance, service-specific monitoring, and encryption-key rotation on the target host.
 
-No existing MCP server, Keycloak, production BookStack, DNS, or reverse proxy was changed. No ChatGPT plugin was created. The [deployment checklist](production-checklist.md) contains the proposed changes and acceptance steps for the next phase.
+The initial implementation phase did not change production systems. The authorized pilot subsequently added its own container, DNS record, proxy configuration, certificate renewal, and dedicated Keycloak clients/scopes. Production BookStack content and existing MCP services were not changed. No ChatGPT plugin was created. The [deployment checklist](production-checklist.md) contains the remaining acceptance steps.
