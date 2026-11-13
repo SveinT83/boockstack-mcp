@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "bookstack",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Personlig søk, lesing og redigering i BookStack gjennom Keycloak og brukerens egne BookStack-rettigheter.",
   "author": { "name": "Trønder Data" },
   "repository": "https://github.com/SveinT83/boockstack-mcp",

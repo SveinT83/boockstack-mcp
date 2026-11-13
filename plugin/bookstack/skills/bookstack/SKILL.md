@@ -5,6 +5,8 @@ description: Bruk når brukeren vil søke, lese, navigere, opprette eller redige
 
 # BookStack
 
+Kontroller først at denne direkte pluginens egne verktøy faktisk er tilgjengelige. Hvis `bookstack_connection_status` eller de øvrige direkte verktøyene mangler, stopp tilkoblingstesten og si at den direkte MCP-forbindelsen ikke er tilgjengelig i chatten. Ikke bruk Trønder Data-gatewayen, LiteLLM eller andre BookStack-integrasjoner som fallback, og ikke bruk treff derfra som bevis på at denne pluginen virker. En installert skill alene bekrefter ikke en MCP-tilkobling.
+
 Bruk denne pluginens BookStack-verktøy til dokumentasjonsarbeid. Hvert kall bruker den innloggede personens lagrede API-nøkkel, og BookStack avgjør innholdsrettighetene. Ikke be om en annen brukers identitet eller bruk en felles administratorkonto.
 
 ## Førstegangsoppsett og feil

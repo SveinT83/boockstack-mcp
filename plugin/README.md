@@ -18,6 +18,14 @@ A private workspace plugin was created from this package on 2026-11-13. Creation
 
 Each user registers their own BookStack token at the MCP service's `/setup` page. Never paste a token into ChatGPT. Verify connection status, a known permitted page, and a denied page before testing approved edits in designated test documentation.
 
+## Required ChatGPT MCP registration
+
+The initial archive upload saved the package and skill, but did not establish a registered ChatGPT MCP app. A subsequent ChatGPT test had no tools from this direct server and instead used an unrelated gateway. No request reached this server during that test. The archive upload and successful server-side OAuth probes must not be reported as a working ChatGPT connection.
+
+Follow [OpenAI's registered MCP connection workflow](https://developers.openai.com/plugins/build/plugins#create-and-test-a-plugin-locally-with-an-mcp-server): ChatGPT Plugins → plus button → Add custom MCP server → configure the existing endpoint and the provided OAuth client → Create as a plugin. Obtain the resulting registered app/plugin reference and its actual callback information. Bind that verified app to the package through `.app.json` and the manifest's OpenAI app declaration; do not invent an app ID or consider the portable MCP file alone proof of a registered app connection.
+
+Version 0.1.1 makes the skill stop when its own direct tools are unavailable. Gateway results must never substitute for verification of the direct integration. The app binding and successful personal ChatGPT call are still pending; the MCP service and stored personal credential are unchanged.
+
 ## Observed Codex Desktop compatibility limit
 
 On 2026-11-13, Codex Desktop 26.1106.51428 installed this plugin and loaded its skill, but its MCP loader rejected the portable server's OpenAI OAuth extension with `unknown field extensions, expected url or headers`. No authenticated MCP tools from this plugin became available in that chat. Installation therefore did not establish a working MCP connection in that client version.
