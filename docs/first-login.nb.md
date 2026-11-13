@@ -29,7 +29,7 @@ BookStacks dokumenterte API i den kontrollerte versjonen kan ikke bekrefte hvilk
 
 ## Koble til ChatGPT når pluginen er klargjort
 
-Åpne BookStack-pluginen som drift har delt, og godkjenn egen Keycloak-innlogging. Bruk samme personlige jobbkonto som på oppsettsiden. ChatGPT skal ikke be deg skrive BookStack-nøkkelen i samtalen. Pluginens «Kom i gang»-veiledning viser oppsettslenken og leder deg gjennom nøkkelregistreringen hvis du mangler en lagret nøkkel.
+Åpne den direkte BookStack-pluginen som drift har delt, og godkjenn egen Keycloak-innlogging. Bruk samme personlige jobbkonto som på oppsettsiden. ChatGPT skal ikke be deg skrive BookStack-nøkkelen i samtalen. MCP-verktøyene returnerer oppsettslenken og trinnene for nøkkelregistrering hvis du mangler en lagret nøkkel. Du trenger ikke en ekstra pluginpakke i tillegg.
 
 Be først om tilkoblingsstatus, og prøv deretter et søk etter et dokument du kjenner. Tilgang til skriving krever et eget OAuth-scope i tillegg til BookStack-rettighetene dine. Hvis tjenesten sier at en personlig nøkkel mangler, bruk oppsettsiden med samme jobbkonto som i ChatGPT-innloggingen.
 

@@ -1,5 +1,7 @@
 # BookStack ChatGPT plugin
 
+**Reference installation: use one direct MCP plugin.** The operator chose the already connected direct ChatGPT plugin as the sole employee entry point. The earlier private workspace wrapper is unused; do not install or share it alongside the direct plugin. Onboarding links and steps are delivered by the hosted MCP tools. The source package below is an optional portable example for other deployments, not a requirement to add a second plugin to this installation.
+
 `bookstack/` contains the portable Agent Plugins 1.0 package for the standalone MCP service. It includes Norwegian workflow and first-time setup skills, a local SVG icon, and a direct Streamable HTTP connection. No LiteLLM route or credentials are packaged.
 
 Build a ZIP outside the source directory:
@@ -29,6 +31,10 @@ The initial archive upload saved the package and skill, but did not establish a 
 Follow [OpenAI's registered MCP connection workflow](https://developers.openai.com/plugins/build/plugins#create-and-test-a-plugin-locally-with-an-mcp-server): ChatGPT Plugins → plus button → Add custom MCP server → configure the existing endpoint and the provided OAuth client → Create as a plugin. Obtain the resulting registered app/plugin reference and its actual callback information. Bind that verified app to the package through `.app.json` and the manifest's OpenAI app declaration; do not invent an app ID or consider the portable MCP file alone proof of a registered app connection.
 
 Version 0.1.1 makes the skill stop when its own direct tools are unavailable. Gateway results must never substitute for verification of the direct integration. The operator subsequently registered a separate MCP-backed app and confirmed a connected personal OAuth account. That app owns its own plugin release and presentation; update its existing verified plugin ID rather than assuming updates to the earlier standalone package will reach it. Keep the app's binding and OAuth configuration unchanged when adding skills. Its icon and description are app-owned settings and must be edited through the app's management interface. A successful personal document call remains unverified.
+
+The original workspace plugin was subsequently updated to version 0.1.2 with its existing identity and audience. The saved release has a verified `.app.json` binding to the registered MCP app, the book icon, a description and website link pointing to setup, and both workflow and onboarding skills. Its obsolete portable MCP declarations were explicitly removed to avoid configuring the same connection twice. The saved release was read back to verify these fields and the retained starter prompt. The public source remains a portable endpoint-based package; the account release uses the registered app binding instead.
+
+The workspace release described above was then superseded by the operator's explicit decision to keep only the direct plugin. An uninstall request for the unused wrapper returned `not_installed`; it did not delete the draft from **Created by you**. Permanent draft deletion and edits to the direct app's presentation require its management interface; those actions are not available through the current tools. The existing direct app and OAuth connection were retained. A private app is not automatically shared with every employee, and another employee's access remains to be verified.
 
 ## Observed Codex Desktop compatibility limit
 

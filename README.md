@@ -2,7 +2,7 @@
 
 A standalone, per-user [Model Context Protocol](https://modelcontextprotocol.io/) server for BookStack. Connect an MCP client directly over HTTPS, authenticate people with Keycloak, and use each person's encrypted BookStack API token. BookStack enforces its existing content permissions on every request.
 
-**Status:** the reference pilot is deployed behind HTTPS, with a healthy non-root container and dedicated Keycloak web and ChatGPT clients. Personal web login and API-key storage have succeeded, and the operator has confirmed the registered ChatGPT app now shows a connected personal OAuth account. An end-to-end document call from that app remains unverified. The [plugin package](plugin/README.md) includes a first-time setup skill; a connected OAuth account alone does not establish that a personal BookStack key has been registered. See [verification results](docs/verification.md) and the [deployment checklist](docs/production-checklist.md).
+**Status:** the reference pilot is deployed behind HTTPS, with a healthy non-root container and dedicated Keycloak web and ChatGPT clients. Personal web login and API-key storage have succeeded, and the operator has confirmed the direct ChatGPT plugin shows a connected personal OAuth account. The reference installation uses this **single direct plugin**, with first-time setup guidance supplied by the MCP server. An additional wrapper plugin is not required. An end-to-end document call and a second employee's access remain unverified. A connected OAuth account alone does not establish that a personal BookStack key has been registered. See the [plugin source and reference choice](plugin/README.md), [verification results](docs/verification.md), and [deployment checklist](docs/production-checklist.md).
 
 ## Features
 
@@ -54,7 +54,7 @@ Stored BookStack keys are bound to the exact validated `(issuer, subject)` pair.
 
 ## Personal BookStack tokens
 
-For the reference installation, start at [Set up your personal BookStack connection](https://bookstack-mcp.tronderdata.no/setup). Sign in with the same work account used for the ChatGPT connection, create a personal token in BookStack, and select **Test og lagre nøkkel** in the setup form. Return to ChatGPT to check connection status and try a permitted document search. Each employee completes this once for their own account. The plugin's setup skill guides users through these steps without collecting credentials in chat.
+For the reference installation, start at [Set up your personal BookStack connection](https://bookstack-mcp.tronderdata.no/setup). Sign in with the same work account used for the ChatGPT connection, create a personal token in BookStack, and select **Test og lagre nøkkel** in the setup form. Return to ChatGPT to check connection status and try a permitted document search. Each employee completes this once for their own account. The MCP tools supply this guidance when a key is missing, without collecting credentials in chat.
 
 The Norwegian setup page at `/setup` supports initial connection, replacement, and deletion. It requires job-account login, same-origin form submission, a session-bound CSRF token, and confirmation that the submitted BookStack token is personal. Token ID and Token Secret are accepted only by this browser form, never as MCP arguments. Saved values are never displayed or returned to a model.
 

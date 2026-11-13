@@ -9,7 +9,7 @@ Date: 2026-11-13, Europe/Oslo. This report distinguishes local implementation ch
 | Locked dependency installation (`npm ci`)                                                  | Passed                                                                                                                                             |
 | Formatting (`npm run format:check`)                                                        | Passed                                                                                                                                             |
 | TypeScript (`npm run typecheck`)                                                           | Passed                                                                                                                                             |
-| Automated tests (`npm test`)                                                               | 72 passed; 0 failed                                                                                                                                |
+| Automated tests (`npm test`)                                                               | 73 passed; 0 failed                                                                                                                                |
 | Compiled build (`npm run build`)                                                           | Passed                                                                                                                                             |
 | Compiled-runtime smoke check (`npm run smoke:runtime`)                                     | Passed with a local mock OIDC issuer and temporary SQLite state                                                                                    |
 | Production-dependency audit (`npm audit --omit=dev --audit-level=moderate`)                | 0 reported vulnerabilities at check time; not a security certification                                                                             |
@@ -68,12 +68,23 @@ Its exact stable callback was verified against OpenAI's published client metadat
 
 ## Not yet verified
 
-- A completed personal OAuth callback/session, issued user-token claims, MFA, and the future MCP client's refresh-token lifecycle.
-- Native resource-indicator/CIMD behavior and the future ChatGPT client registration.
-- Personal BookStack token submission through the production HTTPS proxy.
+- Issued personal user-token claims and the MCP client's refresh-token lifecycle. Personal web login and key submission have succeeded, and the operator's ChatGPT screen shows a connected OAuth account.
+- Native resource-indicator/CIMD behavior. The dedicated ChatGPT client is registered and accepts the real requested scopes, including optional `offline_access`.
 - Authenticated personal BookStack reads and permission separation for two real technicians.
 - Actual key ownership: the supported BookStack API does not expose a caller-identity endpoint in this version. The personal-ownership confirmation is not technical proof.
 - End-to-end OAuth, discovery, reading, writing, and disconnect/revocation behavior inside ChatGPT Business.
 - Production backup/restore acceptance, service-specific monitoring, and encryption-key rotation on the target host.
+
+## Employee onboarding follow-up
+
+The operator requested a discoverable setup link for employees. The source now includes a dedicated onboarding skill and the reference setup URL in the portable plugin's description and website field. The hosted MCP instructions, connection-status description, missing-key errors, and status responses also guide users through personal key registration. Existing stored keys do not trigger registration again. The new regression check verifies caller isolation, no upstream request during status checks, and no credential disclosure. All 73 tests, formatting, type checking, build, and compiled-runtime smoke checks passed.
+
+Runtime commit `6ab0c31` was built and deployed to the existing isolated container. The container became healthy; public liveness and resource metadata returned HTTP 200, and an anonymous MCP call still returned HTTP 401. No credential, OAuth setting, or document content was changed.
+
+The connected MCP-backed app is a separate editable plugin from the original portable workspace package. Its source was inspected, but Plugin Creator rejected the skill update with its app-configuration-preservation error even though presentation was retained. The active app's bundled onboarding skill, icon, and description have therefore **not** been updated through that tool. The PNG icon and Norwegian description are prepared in `plugin/` for the app's management interface. A real first-time employee flow in ChatGPT remains to be checked.
+
+The existing workspace plugin was then successfully updated to version 0.1.2, preserving its identity and private audience. Its saved source was read back to verify the registered app binding, book icon, setup URL in the description and website link, onboarding selection, both skills, and unchanged starter prompt. Duplicate portable MCP declarations were explicitly deleted in that account release. The separately registered MCP app is now a required dependency and must be retained. The generated app's own presentation remains unchanged. Another employee's access and the visible onboarding flow in ChatGPT have not been tested.
+
+The operator subsequently rejected the two-entry arrangement and explicitly chose **only the direct MCP plugin**. The additional workspace wrapper is unused. Its authorized uninstall returned `not_installed`; no claim is made that its draft was deleted from **Created by you**. Current tools cannot permanently delete that draft or edit the direct app's presentation. The direct app, personal OAuth connection, and deployed server-side onboarding remain intact. Future rollout must use the single direct plugin rather than installing the wrapper.
 
 The initial implementation phase did not change production systems. The authorized pilot subsequently added its own container, DNS record, proxy configuration, certificate renewal, and dedicated Keycloak clients/scopes. The separately authorized plugin phase created the private workspace package and its own OAuth client. Production BookStack content and existing MCP services were not changed. The [deployment checklist](production-checklist.md) contains the remaining acceptance steps.
