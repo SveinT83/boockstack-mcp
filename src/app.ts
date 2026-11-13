@@ -46,7 +46,9 @@ export function createApp(
           ...(config.publicOrigin.startsWith('http:') ? { upgradeInsecureRequests: null } : {}),
         },
       },
-      referrerPolicy: { policy: 'no-referrer' },
+      // no-referrer makes native HTML form POSTs send Origin: null, failing CSRF.
+      // strict-origin preserves their HTTPS Origin without revealing paths or queries.
+      referrerPolicy: { policy: 'strict-origin' },
     }),
   );
   app.use((req, res, next) => {
@@ -147,6 +149,7 @@ export function createApp(
     res.redirect(location);
   });
   app.get('/auth/callback', loginLimit, async (req, res) => {
+    res.set('Referrer-Policy', 'no-referrer');
     const handle = req.cookies?.[flowCookie];
     const attempt = typeof handle === 'string' ? flows.get(hash(handle)) : undefined;
     if (typeof handle === 'string') flows.delete(hash(handle));

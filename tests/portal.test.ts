@@ -46,6 +46,8 @@ test('login uses secure cookies; setup does not render stored credentials', asyn
     assert(!setup.text.includes(aliceKey.tokenSecret));
     assert.match(setup.headers['content-security-policy'], /frame-ancestors 'none'/);
     assert.equal(setup.headers['cache-control'], 'no-store');
+    assert.equal(setup.headers['referrer-policy'], 'strict-origin');
+    assert.equal(callback.headers['referrer-policy'], 'no-referrer');
     for (const cookie of [...start.headers['set-cookie'], ...callback.headers['set-cookie']]) {
       assert.match(cookie, /Secure/);
       assert.match(cookie, /HttpOnly/);
@@ -88,6 +90,7 @@ test('CSRF and same-origin checks protect save, delete, and logout', async () =>
       for (const [origin, input] of [
         [undefined, csrf],
         ['https://attacker.example.org', csrf],
+        ['null', csrf],
         [undefined, 'bad'],
       ] as const) {
         let req = f.http().post(path).set('Host', f.host).set('Cookie', session).type('form');
