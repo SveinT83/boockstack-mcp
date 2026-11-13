@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+*.sqlite*
+config/local.json
+secrets/
+coverage/
+.env.*
+*.db
+*.db-*
+keyring*.json
+web-client-secret
+*.credentials.json

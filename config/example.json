@@ -1,0 +1,17 @@
+{
+  "publicOrigin": "https://bookstack-mcp.example.org",
+  "bookstackUrl": "https://doc.tronderdata.no",
+  "expectedBookstackVersion": "v26.09.2",
+  "issuer": "https://auth.example.org/realms/REPLACE_WITH_VERIFIED_REALM",
+  "webClientId": "bookstack-mcp-web",
+  "webClientSecretFile": "/run/secrets/web-client-secret",
+  "keyringFile": "/run/secrets/keyring.json",
+  "databasePath": "/data/bookstack-mcp.sqlite",
+  "host": "127.0.0.1",
+  "port": 8110,
+  "trustedProxies": [],
+  "allowedMcpOrigins": [],
+  "allowInsecureLocalhost": false,
+  "upstreamTimeoutMs": 15000,
+  "maxResponseBytes": 4194304
+}

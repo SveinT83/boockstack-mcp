@@ -1,0 +1,38 @@
+name: bookstack-mcp
+services:
+  bookstack:
+    image: local/td-bookstack-mcp:0.1.0
+    pull_policy: never
+    user: '1000:1000'
+    init: true
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 64
+    mem_limit: 256m
+    ports: ['127.0.0.1:8110:8110']
+    environment:
+      BOOKSTACK_MCP_CONFIG: /etc/bookstack-mcp/config.json
+      PUBLIC_HOST: ${BOOKSTACK_MCP_PUBLIC_HOST:?Set BOOKSTACK_MCP_PUBLIC_HOST to the publicOrigin host and optional port}
+    volumes:
+      - /etc/bookstack-mcp/config.json:/etc/bookstack-mcp/config.json:ro
+      - /etc/bookstack-mcp/web-client-secret:/run/secrets/web-client-secret:ro
+      - /etc/bookstack-mcp/keyring.json:/run/secrets/keyring.json:ro
+      - /var/lib/bookstack-mcp:/data
+    tmpfs: ['/tmp:noexec,nosuid,size=16m']
+    healthcheck:
+      # Set PUBLIC_HOST to the host:port of publicOrigin, without scheme.
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "require('node:http').get({host:'127.0.0.1',port:8110,path:'/healthz',headers:{Host:process.env.PUBLIC_HOST}},r=>{r.resume();process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options: { max-size: '10m', max-file: '3' }
