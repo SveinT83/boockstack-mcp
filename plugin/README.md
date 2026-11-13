@@ -17,3 +17,9 @@ The base scope is `bookstack:read`; the requested default scopes are `bookstack:
 A private workspace plugin was created from this package on 2026-11-13. Creation is not installation, personal authorization, workspace-wide sharing, or verified end-to-end access. The workspace owner must add the plugin and complete personal OAuth consent. Share it through Plugins → Created by you → BookStack → Share for the intended workspace audience. A public source repository does not publish the private plugin to the public directory.
 
 Each user registers their own BookStack token at the MCP service's `/setup` page. Never paste a token into ChatGPT. Verify connection status, a known permitted page, and a denied page before testing approved edits in designated test documentation.
+
+## Observed Codex Desktop compatibility limit
+
+On 2026-11-13, Codex Desktop 26.1106.51428 installed this plugin and loaded its skill, but its MCP loader rejected the portable server's OpenAI OAuth extension with `unknown field extensions, expected url or headers`. No authenticated MCP tools from this plugin became available in that chat. Installation therefore did not establish a working MCP connection in that client version.
+
+Keep the OAuth configuration intact for ChatGPT; stripping it merely to satisfy an older parser would remove the intended pre-registered client configuration. Verify the personal OAuth connection and a harmless `bookstack_connection_status` call in ChatGPT. Codex support requires a client that accepts this configuration or a separately reviewed native connection setup. Do not substitute the older gateway BookStack tools as evidence for this direct plugin.
